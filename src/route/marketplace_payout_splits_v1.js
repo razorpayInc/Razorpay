@@ -29,4 +29,17 @@ function marketplacePayoutSplits(amountPaise, accounts) {
   ];
 }
 
-module.exports = { marketplacePayoutSplits, DEFAULT_SPLIT_BPS };
+function splitLedgerEvents(orderId, transfers) {
+  return transfers.map((transfer) => ({
+    orderId,
+    account: transfer.account,
+    amount: transfer.amount,
+    event: `route.split.${transfer.account.replace(/^acc_/, '')}.settled`,
+  }));
+}
+
+module.exports = {
+  marketplacePayoutSplits,
+  splitLedgerEvents,
+  DEFAULT_SPLIT_BPS,
+};
